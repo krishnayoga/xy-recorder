@@ -31,6 +31,11 @@ namespace AI_StreamingAI
         double          max_y = 0;
         double          min_y = 1000;
         int             factor_baca;
+        int          max_x_chart;
+        int          min_x_chart;
+        int          max_y_chart;
+        int          min_y_chart;
+
         #endregion
 
         public StreamingAIForm()
@@ -70,7 +75,7 @@ namespace AI_StreamingAI
            
             
 
-            initChart();
+            
         }
 
         private void HandleError(ErrorCode err)
@@ -98,12 +103,19 @@ namespace AI_StreamingAI
        	        HandleError(err);
 	            return;
             }
-
+            
             button_start.Enabled = false;
             button_pause.Enabled = true;
             button_stop.Enabled = true;
-
+            
             factor_baca = Convert.ToInt32(textBox1.Text);
+
+            max_x_chart = Convert.ToInt32(textBox2.Text);
+            min_x_chart = -max_x_chart;
+            max_y_chart = Convert.ToInt32(textBox3.Text);
+            min_y_chart = -max_y_chart;
+
+            initChart();
         }
 
 	    private void waveformAiCtrl1_DataReady(object sender, BfdAiEventArgs args)
@@ -268,15 +280,17 @@ namespace AI_StreamingAI
 
             this.chartXY.Titles.Add("pt. B2TKS - BPPT");
             
-            chartXY.ChartAreas[0].AxisX.Maximum = 10;
-            chartXY.ChartAreas[0].AxisX.Minimum = -10;
-            chartXY.ChartAreas[0].AxisY.Maximum = 10;
-            chartXY.ChartAreas[0].AxisY.Minimum = 0;
-            //chartXY.ChartAreas[0].AxisX.Interval = 1;
-            //chartXY.ChartAreas[0].AxisY.Interval = 1;
+            chartXY.ChartAreas[0].AxisX.Maximum = max_x_chart;
+            chartXY.ChartAreas[0].AxisX.Minimum = min_x_chart;
+            chartXY.ChartAreas[0].AxisY.Maximum = max_y_chart;
+            chartXY.ChartAreas[0].AxisY.Minimum = min_y_chart;
+            chartXY.ChartAreas[0].AxisX.Interval = 1;
+            chartXY.ChartAreas[0].AxisY.Interval = 1;
 
             chartXY.ChartAreas[0].AxisX.Title = "waktu";
             chartXY.ChartAreas[0].AxisY.Title = "nilai";
+
+            
         }
 
         private void label4_Click(object sender, EventArgs e)

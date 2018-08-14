@@ -30,10 +30,10 @@ namespace AI_StreamingAI
       {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StreamingAIForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.button_stop = new System.Windows.Forms.Button();
             this.button_pause = new System.Windows.Forms.Button();
             this.button_start = new System.Windows.Forms.Button();
@@ -60,6 +60,8 @@ namespace AI_StreamingAI
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chartXY)).BeginInit();
             this.SuspendLayout();
             // 
@@ -123,23 +125,23 @@ namespace AI_StreamingAI
             // 
             // chartXY
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartXY.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chartXY.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chartXY.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chartXY.Legends.Add(legend1);
             this.chartXY.Location = new System.Drawing.Point(41, 12);
             this.chartXY.Name = "chartXY";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Legend = "Legend1";
-            series4.Name = "Series2";
-            this.chartXY.Series.Add(series3);
-            this.chartXY.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Series2";
+            this.chartXY.Series.Add(series1);
+            this.chartXY.Series.Add(series2);
             this.chartXY.Size = new System.Drawing.Size(598, 410);
             this.chartXY.TabIndex = 23;
             this.chartXY.Text = "chart1";
@@ -325,11 +327,27 @@ namespace AI_StreamingAI
             this.label13.TabIndex = 42;
             this.label13.Text = "label13";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(645, 334);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 24);
+            this.textBox2.TabIndex = 43;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(646, 365);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 24);
+            this.textBox3.TabIndex = 44;
+            // 
             // StreamingAIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(761, 496);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox5);
@@ -396,6 +414,8 @@ namespace AI_StreamingAI
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }
 

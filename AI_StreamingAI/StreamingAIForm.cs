@@ -14,235 +14,237 @@ namespace AI_StreamingAI
 {
    public partial class StreamingAIForm : Form
    {
-      #region fields  
-      double[]      m_dataScaled;
-      bool          m_isFirstOverRun = true;
-      double        m_xInc;
-      int           dataCount = 0;
-      string        last_x;
-      bool          firstChecked = true;
-      string[]      arrAvgData;
-      string[]      arrData;
-      double[]      arrSumData;
-      double        max_x = 0;
-      double        min_x = 1000;
-      double        max_y = 0;
-      double        min_y = 1000;
-      #endregion
+        #region fields  
+        double[]        m_dataScaled;
+        bool            m_isFirstOverRun = true;
+        double          m_xInc;
+        int             dataCount = 0;
+        string          last_x_0;
+        string          last_x_1;
+        bool            firstChecked = true;
+        string[]        arrAvgData;
+        string[]        arrData;
+        double[]        arrSumData;
+        double          max_x = 0;
+        double          min_x = 1000;
+        double          max_y = 0;
+        double          min_y = 1000;
+        #endregion
 
-      public StreamingAIForm()
-      {
-        InitializeComponent();
-      }
+        public StreamingAIForm()
+        {
+            InitializeComponent();
+        }
 
-      public StreamingAIForm(int deviceNumber)
-      {
-        InitializeComponent();
-	    waveformAiCtrl1.SelectedDevice = new DeviceInformation(deviceNumber);
-      }
+        public StreamingAIForm(int deviceNumber)
+        {
+            InitializeComponent();
+	        waveformAiCtrl1.SelectedDevice = new DeviceInformation(deviceNumber);
+        }
       
-      private void StreamingBufferedAiForm_Load(object sender, EventArgs e)
-      {
-        if (!waveformAiCtrl1.Initialized)
+        private void StreamingBufferedAiForm_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("No device be selected or device open failed!", "StreamingAI");
-            this.Close();
-            return;
-        }
-
-	    int chanCount = waveformAiCtrl1.Conversion.ChannelCount;
-		int sectionLength = waveformAiCtrl1.Record.SectionLength;
-		m_dataScaled = new double[chanCount * sectionLength];
-
-		this.Text = "Streaming AI(" + waveformAiCtrl1.SelectedDevice.Description + ")";
-
-        button_start.Enabled = true;
-        button_stop.Enabled = false;
-        button_pause.Enabled = false;
-
-        chartXY.Series[0].IsXValueIndexed = false;
-
-        initChart();
-       }
-
-      private void HandleError(ErrorCode err)
-      {
-        if ((err >= ErrorCode.ErrorHandleNotValid) && (err != ErrorCode.Success))
-        {
-            MessageBox.Show("Sorry ! Some errors happened, the error code is: " + err.ToString(), "StreamingAI");
-        }
-      }
-
-      private void button_start_Click(object sender, EventArgs e)
-      {
-        ErrorCode err = ErrorCode.Success;
-
-        err = waveformAiCtrl1.Prepare();
-        m_xInc = 1.0 / waveformAiCtrl1.Conversion.ClockRate;
-
-        if (err == ErrorCode.Success)
-        {
-            err = waveformAiCtrl1.Start();
-        }
-
-        if (err != ErrorCode.Success)
-        {
-       	    HandleError(err);
-	        return;
-        }
-
-        button_start.Enabled = false;
-        button_pause.Enabled = true;
-        button_stop.Enabled = true;
-        }
-
-	  private void waveformAiCtrl1_DataReady(object sender, BfdAiEventArgs args)
-      {
-        try
-        {
-            if (waveformAiCtrl1.State == ControlState.Idle)
+            if (!waveformAiCtrl1.Initialized)
             {
-	            return;
-            }
-
-            if (m_dataScaled.Length < args.Count)
-            {
-                m_dataScaled = new double[args.Count];
-            }
-
-            ErrorCode err = ErrorCode.Success;
-		    int chanCount = waveformAiCtrl1.Conversion.ChannelCount;
-			int sectionLength = waveformAiCtrl1.Record.SectionLength;
-            err = waveformAiCtrl1.GetData(args.Count, m_dataScaled);
-
-            if (err != ErrorCode.Success && err != ErrorCode.WarningRecordEnd)
-            {
-                HandleError(err);
+                MessageBox.Show("No device be selected or device open failed!", "StreamingAI");
+                this.Close();
                 return;
             }
 
-            this.Invoke(new Action(() =>
+	        int chanCount = waveformAiCtrl1.Conversion.ChannelCount;
+		    int sectionLength = waveformAiCtrl1.Record.SectionLength;
+		    m_dataScaled = new double[chanCount * sectionLength];
+
+		    this.Text = "Streaming AI(" + waveformAiCtrl1.SelectedDevice.Description + ")";
+
+            button_start.Enabled = true;
+            button_stop.Enabled = false;
+            button_pause.Enabled = false;
+
+            chartXY.Series[0].IsXValueIndexed = false;
+
+            initChart();
+        }
+
+        private void HandleError(ErrorCode err)
+        {
+            if ((err >= ErrorCode.ErrorHandleNotValid) && (err != ErrorCode.Success))
             {
-                arrSumData = new double[chanCount];
+                MessageBox.Show("Sorry ! Some errors happened, the error code is: " + err.ToString(), "StreamingAI");
+            }
+        }
 
-                for (int i = 0; i < sectionLength; i++)
+        private void button_start_Click(object sender, EventArgs e)
+        {
+            ErrorCode err = ErrorCode.Success;
+
+            err = waveformAiCtrl1.Prepare();
+            m_xInc = 1.0 / waveformAiCtrl1.Conversion.ClockRate;
+
+            if (err == ErrorCode.Success)
+            {
+                err = waveformAiCtrl1.Start();
+            }
+
+            if (err != ErrorCode.Success)
+            {
+       	        HandleError(err);
+	            return;
+            }
+
+            button_start.Enabled = false;
+            button_pause.Enabled = true;
+            button_stop.Enabled = true;
+        }
+
+	    private void waveformAiCtrl1_DataReady(object sender, BfdAiEventArgs args)
+        {
+            try
+            {
+                if (waveformAiCtrl1.State == ControlState.Idle)
                 {
-                    arrData = new string[chanCount];
-
-                    for (int j = 0; j < chanCount; j++)
-                    {
-                        int cnt = i * chanCount + j;
-                        arrData[j] = m_dataScaled[cnt].ToString("F1");
-                        arrSumData[j] += m_dataScaled[cnt];
-                        //Console.WriteLine("j ke " + j + " arrsumdata :" + arrSumData[j] + " m_datascaled: " + m_dataScaled[cnt] + " cnt: " + cnt + " chancount: " + chanCount);
-                    }
+	                return;
                 }
 
-                arrAvgData = new string[arrSumData.Length];
-
-                for (int i = 0; i < arrSumData.Length; i++)
+                if (m_dataScaled.Length < args.Count)
                 {
-                    arrAvgData[i] = (arrSumData[i] / sectionLength).ToString("F1");
-                    label1.Text = arrAvgData[0];
-                    label2.Text = arrAvgData[1];
-                    //label3.Text = arrAvgData[2];
-                    //Console.WriteLine("i ke " + i + " arrsumdata :" + arrSumData[i]);
-                    dataCount++;
+                    m_dataScaled = new double[args.Count];
+                }
 
-                    if (Convert.ToDouble(arrAvgData[0]) > max_x)
+                ErrorCode err = ErrorCode.Success;
+		        int chanCount = waveformAiCtrl1.Conversion.ChannelCount;
+			    int sectionLength = waveformAiCtrl1.Record.SectionLength;
+                err = waveformAiCtrl1.GetData(args.Count, m_dataScaled);
+
+                if (err != ErrorCode.Success && err != ErrorCode.WarningRecordEnd)
+                {
+                    HandleError(err);
+                    return;
+                }
+
+                this.Invoke(new Action(() =>
+                {
+                    arrSumData = new double[chanCount];
+
+                    for (int i = 0; i < sectionLength; i++)
                     {
-                        max_x = Convert.ToDouble(arrAvgData[0]);
+                        arrData = new string[chanCount];
+
+                        for (int j = 0; j < chanCount; j++)
+                        {
+                            int cnt = i * chanCount + j;
+                            arrData[j] = m_dataScaled[cnt].ToString("F1");
+                            arrSumData[j] += m_dataScaled[cnt];
+                            //Console.WriteLine("j ke " + j + " arrsumdata :" + arrSumData[j] + " m_datascaled: " + m_dataScaled[cnt] + " cnt: " + cnt + " chancount: " + chanCount);
+                        }
                     }
 
-                    if(Convert.ToDouble(arrAvgData[0]) < min_x)
-                    {
-                         min_x = Convert.ToDouble(arrAvgData[0]);
-                    }
+                    arrAvgData = new string[arrSumData.Length];
 
-                    if(Convert.ToDouble(arrAvgData[1]) > max_y)
+                    for (int i = 0; i < arrSumData.Length; i++)
                     {
-                        max_y = Convert.ToDouble(arrAvgData[1]);
-                    }
+                        arrAvgData[i] = (arrSumData[i] / sectionLength).ToString("F1");
+                        label1.Text = arrAvgData[0];
+                        label2.Text = arrAvgData[1];
+                        //label3.Text = arrAvgData[2];
+                        //Console.WriteLine("i ke " + i + " arrsumdata :" + arrSumData[i]);
+                        dataCount++;
 
-                    if(Convert.ToDouble(arrAvgData[1]) < min_y)
-                    {
-                        min_y = Convert.ToDouble(arrAvgData[1]);
-                    }
+                        if (Convert.ToDouble(arrAvgData[0]) > max_x)
+                        {
+                            max_x = Convert.ToDouble(arrAvgData[0]);
+                        }
+
+                        if(Convert.ToDouble(arrAvgData[0]) < min_x)
+                        {
+                            min_x = Convert.ToDouble(arrAvgData[0]);
+                        }
+
+                        if(Convert.ToDouble(arrAvgData[1]) > max_y)
+                        {
+                            max_y = Convert.ToDouble(arrAvgData[1]);
+                        }
+
+                        if(Convert.ToDouble(arrAvgData[1]) < min_y)
+                        {
+                            min_y = Convert.ToDouble(arrAvgData[1]);
+                        }
                     
-                    //chartXY.Series[0].Points.AddXY(arrAvgData[0], arrAvgData[1]);
+                        //chartXY.Series[0].Points.AddXY(arrAvgData[0], arrAvgData[1]);
                         
-                    label9.Text = max_x.ToString();
-                    label10.Text = min_x.ToString();
-                    label11.Text = max_y.ToString();
-                    label12.Text = min_y.ToString();
+                        label9.Text = max_x.ToString();
+                        label10.Text = min_x.ToString();
+                        label11.Text = max_y.ToString();
+                        label12.Text = min_y.ToString();
                         
-                }
+                    }
 
-                if(checkBox_holdX.Checked && firstChecked)
-                {
-                    last_x = arrAvgData[0];
-                    //last_x = dataCount.ToString();
-                    firstChecked = false;
-                }
+                    if(checkBox_holdX.Checked && firstChecked)
+                    {
+                        last_x_0 = arrAvgData[0];
+                        last_x_1 = arrAvgData[1];
+                        //last_x = dataCount.ToString();
+                        firstChecked = false;
+                    }
 
-                plotChart(arrAvgData);
-            }));
+                    plotChart(arrAvgData);
+                }));
 
-            Console.WriteLine(dataCount / 3);          
+                Console.WriteLine(dataCount / 3);          
+            }
+
+            catch
+            {
+                MessageBox.Show("nilai x dan y salah!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);    
+            }   
         }
 
-        catch
+        private void button_pause_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("nilai x dan y salah!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);    
-        }   
-      }
+            ErrorCode err = ErrorCode.Success;      
+            err = waveformAiCtrl1.Stop();
+            if (err != ErrorCode.Success)
+            {
+	            HandleError(err);
+                return;
+            }
 
-      private void button_pause_Click(object sender, EventArgs e)
-      {
-        ErrorCode err = ErrorCode.Success;      
-        err = waveformAiCtrl1.Stop();
-        if (err != ErrorCode.Success)
-        {
-	        HandleError(err);
-            return;
+            button_start.Enabled = true;
+            button_pause.Enabled = false;
         }
 
-        button_start.Enabled = true;
-        button_pause.Enabled = false;
-      }
-
-      private void button_stop_Click(object sender, EventArgs e)
-      {
-	    ErrorCode err = ErrorCode.Success;
-		err = waveformAiCtrl1.Stop();
-        if (err != ErrorCode.Success)
+        private void button_stop_Click(object sender, EventArgs e)
         {
-			HandleError(err);
-            return;
-        }   
+	        ErrorCode err = ErrorCode.Success;
+		    err = waveformAiCtrl1.Stop();
+            if (err != ErrorCode.Success)
+            {
+			    HandleError(err);
+                return;
+            }   
           
-        button_start.Enabled = true;
-        button_pause.Enabled = false;
-        button_stop.Enabled = false;
-        Array.Clear(m_dataScaled, 0, m_dataScaled.Length);     
-      }
-     
-	  private void waveformAiCtrl1_CacheOverflow(object sender, BfdAiEventArgs e)
-      {
-        MessageBox.Show("WaveformAiCacheOverflow");
-      }
-
-      private void waveformAiCtrl1_Overrun(object sender, BfdAiEventArgs e)
-      {
-        if (m_isFirstOverRun)
-        {
-            MessageBox.Show("WaveformAiOverrun");
-            m_isFirstOverRun = false;
+            button_start.Enabled = true;
+            button_pause.Enabled = false;
+            button_stop.Enabled = false;
+            Array.Clear(m_dataScaled, 0, m_dataScaled.Length);     
         }
-      }
+     
+	    private void waveformAiCtrl1_CacheOverflow(object sender, BfdAiEventArgs e)
+        {
+            MessageBox.Show("WaveformAiCacheOverflow");
+        }
 
-      private void initChart()
-      {
+        private void waveformAiCtrl1_Overrun(object sender, BfdAiEventArgs e)
+        {
+            if (m_isFirstOverRun)
+            {
+                MessageBox.Show("WaveformAiOverrun");
+                m_isFirstOverRun = false;
+            }
+        }
+
+        private void initChart()
+        {
             chartXY.Series.Clear();
             chartXY.Series.Add("Series 1");
             chartXY.Series.Add("Series 2");
@@ -286,15 +288,15 @@ namespace AI_StreamingAI
         {
             if (!checkBox_holdX.Checked)
             {
-                chartXY.Series[0].Points.AddXY(Convert.ToDouble(arrAvgData[0]), Convert.ToDouble(arrAvgData[1]));
-                chartXY.Series[1].Points.AddXY(Convert.ToDouble(arrAvgData[2]), Convert.ToDouble(arrAvgData[1]));
+                chartXY.Series[0].Points.AddXY(Convert.ToDouble(arrAvgData[0]), Convert.ToDouble(arrAvgData[2]));
+                chartXY.Series[1].Points.AddXY(Convert.ToDouble(arrAvgData[1]), Convert.ToDouble(arrAvgData[2]));
                 firstChecked = true;
             }
 
             if (checkBox_holdX.Checked)
             {
-                chartXY.Series[0].Points.AddXY(Convert.ToDouble(last_x), Convert.ToDouble(arrAvgData[1]));
-                chartXY.Series[1].Points.AddXY(Convert.ToDouble(last_x), Convert.ToDouble(arrAvgData[1]));
+                chartXY.Series[0].Points.AddXY(Convert.ToDouble(last_x_0), Convert.ToDouble(arrAvgData[2]));
+                chartXY.Series[1].Points.AddXY(Convert.ToDouble(last_x_1), Convert.ToDouble(arrAvgData[2]));
             }
         }
 

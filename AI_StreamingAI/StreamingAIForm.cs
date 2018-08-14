@@ -26,8 +26,10 @@ namespace AI_StreamingAI
         string[]        arrData;
         double[]        arrSumData;
         double[]        dataPrint;
-        double          max_x = 0;
-        double          min_x = 1000;
+        double          max_x_1 = 0;
+        double          min_x_1 = 1000;
+        double max_x_2 = 0;
+        double min_x_2 = 0;
         double          max_y = 0;
         double          min_y = 1000;
         int             factor_baca;
@@ -72,10 +74,6 @@ namespace AI_StreamingAI
 
             chartXY.Series[0].IsXValueIndexed = false;
 
-           
-            
-
-            
         }
 
         private void HandleError(ErrorCode err)
@@ -170,43 +168,55 @@ namespace AI_StreamingAI
                         //Console.WriteLine("i ke " + i + " arrsumdata :" + arrSumData[i]);
                         dataCount++;
 
-                        dataPrint[0] = Convert.ToDouble(arrAvgData[0]) * factor_baca;
-                        dataPrint[1] = Convert.ToDouble(arrAvgData[1]) * factor_baca;
-                        dataPrint[2] = Convert.ToDouble(arrAvgData[2]) * factor_baca;
-
-                        label1.Text = dataPrint[0].ToString();
-                        label2.Text = dataPrint[1].ToString();
-
-                        if (dataPrint[0] > max_x)
-                        {
-                            max_x = dataPrint[0];
-                        }
-
-                        if(dataPrint[0] < min_x)
-                        {
-                            min_x = dataPrint[0];
-                        }
-
-                        if(dataPrint[1] > max_y)
-                        {
-                            max_y = dataPrint[1];
-                        }
-
-                        if(dataPrint[1] < min_y)
-                        {
-                            min_y = dataPrint[1];
-                        }
-                    
-                        //chartXY.Series[0].Points.AddXY(arrAvgData[0], arrAvgData[1]);
                         
-                        label9.Text = max_x.ToString();
-                        label10.Text = min_x.ToString();
-                        label11.Text = max_y.ToString();
-                        label12.Text = min_y.ToString();
                         
                     }
 
-                    if(checkBox_holdX.Checked && firstChecked)
+                    dataPrint[0] = Convert.ToDouble(arrAvgData[0]) * factor_baca;
+                    dataPrint[1] = Convert.ToDouble(arrAvgData[1]) * factor_baca;
+                    dataPrint[2] = Convert.ToDouble(arrAvgData[2]) * factor_baca;
+
+                    label1.Text = dataPrint[0].ToString();
+                    label2.Text = dataPrint[1].ToString();
+
+                    if (dataPrint[0] > max_x_1)
+                    {
+                        max_x_1 = dataPrint[0];
+                    }
+
+                    if (dataPrint[0] < min_x_1)
+                    {
+                        min_x_1 = dataPrint[0];
+                    }
+
+                    if (dataPrint[0] > max_x_2)
+                    {
+                        max_x_2 = dataPrint[1];
+                    }
+
+                    if (dataPrint[0] < min_x_2)
+                    {
+                        min_x_2 = dataPrint[1];
+                    }
+
+                    if (dataPrint[1] > max_y)
+                    {
+                        max_y = dataPrint[2];
+                    }
+
+                    if (dataPrint[1] < min_y)
+                    {
+                        min_y = dataPrint[2];
+                    }
+
+                    //chartXY.Series[0].Points.AddXY(arrAvgData[0], arrAvgData[1]);
+
+                    label9.Text = max_x_1.ToString();
+                    label10.Text = min_x_1.ToString();
+                    label11.Text = max_y.ToString();
+                    label12.Text = min_y.ToString();
+
+                    if (checkBox_holdX.Checked && firstChecked)
                     {
                         last_x_0 = dataPrint[0];
                         last_x_1 = dataPrint[1];

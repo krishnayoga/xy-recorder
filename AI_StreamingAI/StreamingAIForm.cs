@@ -243,21 +243,23 @@ namespace AI_StreamingAI
 
       private void initChart()
       {
-        chartXY.Series.Clear();
-        chartXY.Series.Add("X vs Y");
-        chartXY.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
- 
-        this.chartXY.Titles.Add("pt. B2TKS - BPPT");
+            chartXY.Series.Clear();
+            chartXY.Series.Add("Series 1");
+            chartXY.Series.Add("Series 2");
+            chartXY.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            chartXY.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+            this.chartXY.Titles.Add("pt. B2TKS - BPPT");
             
-        chartXY.ChartAreas[0].AxisX.Maximum = 10;
-        chartXY.ChartAreas[0].AxisX.Minimum = 0;
-        chartXY.ChartAreas[0].AxisY.Maximum = 10;
-        chartXY.ChartAreas[0].AxisY.Minimum = 0;
-        //chartXY.ChartAreas[0].AxisX.Interval = 1;
-        //chartXY.ChartAreas[0].AxisY.Interval = 1;
-            
-        chartXY.ChartAreas[0].AxisX.Title = "waktu";
-        chartXY.ChartAreas[0].AxisY.Title = "nilai";
+            chartXY.ChartAreas[0].AxisX.Maximum = 10;
+            chartXY.ChartAreas[0].AxisX.Minimum = 0;
+            chartXY.ChartAreas[0].AxisY.Maximum = 10;
+            chartXY.ChartAreas[0].AxisY.Minimum = 0;
+            //chartXY.ChartAreas[0].AxisX.Interval = 1;
+            //chartXY.ChartAreas[0].AxisY.Interval = 1;
+
+            chartXY.ChartAreas[0].AxisX.Title = "waktu";
+            chartXY.ChartAreas[0].AxisY.Title = "nilai";
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -285,12 +287,14 @@ namespace AI_StreamingAI
             if (!checkBox_holdX.Checked)
             {
                 chartXY.Series[0].Points.AddXY(Convert.ToDouble(arrAvgData[0]), Convert.ToDouble(arrAvgData[1]));
+                chartXY.Series[1].Points.AddXY(Convert.ToDouble(arrAvgData[2]), Convert.ToDouble(arrAvgData[1]));
                 firstChecked = true;
             }
 
             if (checkBox_holdX.Checked)
             {
                 chartXY.Series[0].Points.AddXY(Convert.ToDouble(last_x), Convert.ToDouble(arrAvgData[1]));
+                chartXY.Series[1].Points.AddXY(Convert.ToDouble(last_x), Convert.ToDouble(arrAvgData[1]));
             }
         }
 

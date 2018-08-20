@@ -28,15 +28,15 @@ namespace AI_StreamingAI
         double[]        dataPrint;
         double          max_x_1 = 0;
         double          min_x_1 = 1000;
-        double max_x_2 = 0;
-        double min_x_2 = 0;
+        double          max_x_2 = 0;
+        double          min_x_2 = 1000;
         double          max_y = 0;
         double          min_y = 1000;
         int             factor_baca;
-        int          max_x_chart;
-        int          min_x_chart;
-        int          max_y_chart;
-        int          min_y_chart;
+        int             max_x_chart;
+        int             min_x_chart;
+        int             max_y_chart;
+        int             min_y_chart;
 
         #endregion
 
@@ -168,8 +168,6 @@ namespace AI_StreamingAI
                         //Console.WriteLine("i ke " + i + " arrsumdata :" + arrSumData[i]);
                         dataCount++;
 
-                        
-                        
                     }
 
                     dataPrint[0] = Convert.ToDouble(arrAvgData[0]) * factor_baca;
@@ -282,11 +280,18 @@ namespace AI_StreamingAI
 
         private void initChart()
         {
+            
             chartXY.Series.Clear();
             chartXY.Series.Add("Series 1");
             chartXY.Series.Add("Series 2");
             chartXY.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chartXY.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+            chartXY.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.Gainsboro;
+            chartXY.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Gainsboro;
+
+            chartXY.ChartAreas[0].AxisX.Crossing = 0;
+            chartXY.ChartAreas[0].AxisY.Crossing = 0;
 
             this.chartXY.Titles.Add("pt. B2TKS - BPPT");
             
@@ -294,8 +299,8 @@ namespace AI_StreamingAI
             chartXY.ChartAreas[0].AxisX.Minimum = min_x_chart;
             chartXY.ChartAreas[0].AxisY.Maximum = max_y_chart;
             chartXY.ChartAreas[0].AxisY.Minimum = min_y_chart;
-            chartXY.ChartAreas[0].AxisX.Interval = 1;
-            chartXY.ChartAreas[0].AxisY.Interval = 1;
+            chartXY.ChartAreas[0].AxisX.Interval = max_x_chart/10;
+            chartXY.ChartAreas[0].AxisY.Interval = max_y_chart/10;
 
             chartXY.ChartAreas[0].AxisX.Title = "waktu";
             chartXY.ChartAreas[0].AxisY.Title = "nilai";
@@ -303,6 +308,7 @@ namespace AI_StreamingAI
             
         }
 
+        #region not used
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -322,6 +328,7 @@ namespace AI_StreamingAI
         {
 
         }
+        #endregion
 
         private void plotChart(string[] data)
         {

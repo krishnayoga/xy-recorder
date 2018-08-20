@@ -30,10 +30,10 @@ namespace AI_StreamingAI
       {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StreamingAIForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.button_stop = new System.Windows.Forms.Button();
             this.button_pause = new System.Windows.Forms.Button();
             this.button_start = new System.Windows.Forms.Button();
@@ -125,23 +125,23 @@ namespace AI_StreamingAI
             // 
             // chartXY
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartXY.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chartXY.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.chartXY.ChartAreas.Add(chartArea2);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chartXY.Legends.Add(legend2);
             this.chartXY.Location = new System.Drawing.Point(41, 12);
             this.chartXY.Name = "chartXY";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Legend = "Legend1";
-            series2.Name = "Series2";
-            this.chartXY.Series.Add(series1);
-            this.chartXY.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Legend = "Legend1";
+            series4.Name = "Series2";
+            this.chartXY.Series.Add(series3);
+            this.chartXY.Series.Add(series4);
             this.chartXY.Size = new System.Drawing.Size(598, 410);
             this.chartXY.TabIndex = 23;
             this.chartXY.Text = "chart1";
@@ -263,11 +263,13 @@ namespace AI_StreamingAI
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(645, 50);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(104, 22);
+            this.checkBox1.Size = new System.Drawing.Size(79, 22);
             this.checkBox1.TabIndex = 36;
-            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.Text = "Axis X1";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -276,9 +278,9 @@ namespace AI_StreamingAI
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(645, 78);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(104, 22);
+            this.checkBox2.Size = new System.Drawing.Size(79, 22);
             this.checkBox2.TabIndex = 37;
-            this.checkBox2.Text = "checkBox2";
+            this.checkBox2.Text = "Axis X2";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // checkBox3
@@ -288,7 +290,7 @@ namespace AI_StreamingAI
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(104, 22);
             this.checkBox3.TabIndex = 38;
-            this.checkBox3.Text = "checkBox3";
+            this.checkBox3.Text = "Invert Ch. 0";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox4
@@ -298,7 +300,7 @@ namespace AI_StreamingAI
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(104, 22);
             this.checkBox4.TabIndex = 39;
-            this.checkBox4.Text = "checkBox4";
+            this.checkBox4.Text = "Invert Ch. 1";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox5
@@ -308,7 +310,7 @@ namespace AI_StreamingAI
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(104, 22);
             this.checkBox5.TabIndex = 40;
-            this.checkBox5.Text = "checkBox5";
+            this.checkBox5.Text = "Invert Ch. 2";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
             // textBox1
@@ -317,6 +319,7 @@ namespace AI_StreamingAI
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 24);
             this.textBox1.TabIndex = 41;
+            this.textBox1.Text = "1";
             // 
             // label13
             // 
@@ -333,6 +336,7 @@ namespace AI_StreamingAI
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 24);
             this.textBox2.TabIndex = 43;
+            this.textBox2.Text = "10";
             // 
             // textBox3
             // 
@@ -340,6 +344,7 @@ namespace AI_StreamingAI
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 24);
             this.textBox3.TabIndex = 44;
+            this.textBox3.Text = "10";
             // 
             // StreamingAIForm
             // 
